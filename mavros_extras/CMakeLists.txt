@@ -87,10 +87,10 @@ add_library(mavros_extras
   src/plugins/mount_control.cpp
   src/plugins/obstacle_distance.cpp
   src/plugins/odom.cpp
+  src/plugins/open_drone_id.cpp
   src/plugins/play_tune.cpp
   src/plugins/px4flow.cpp
   src/plugins/rangefinder.cpp
-  src/plugins/remote_id.cpp
   src/plugins/terrain.cpp
   src/plugins/trajectory.cpp
   src/plugins/tunnel.cpp

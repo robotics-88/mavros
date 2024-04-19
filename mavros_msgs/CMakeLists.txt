@@ -57,7 +57,11 @@ add_message_files(
   RCOut.msg
   RTCM.msg
   RadioStatus.msg
-  RemoteID.msg
+  OpenDroneID/BasicID.msg
+  OpenDroneID/OperatorID.msg
+  OpenDroneID/SelfID.msg
+  OpenDroneID/System.msg
+  OpenDroneID/SystemUpdate.msg
   RTKBaseline.msg
   State.msg
   StatusText.msg

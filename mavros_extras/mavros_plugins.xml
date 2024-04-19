@@ -96,7 +96,7 @@
   <class name="guided_target" type="mavros::extra_plugins::GuidedTargetPlugin" base_class_type="mavros::plugin::PluginBase">
      <description>Send guided target.</description>
   </class>
-  <class name="remote_id" type="mavros::extra_plugins::RemoteIDPlugin" base_class_type="mavros::plugin::PluginBase">
-     <description>Send remote ID info to autopilot.</description>
+  <class name="open_drone_id" type="mavros::extra_plugins::OpenDroneIDPlugin" base_class_type="mavros::plugin::PluginBase">
+     <description>Send Open Drone ID info to autopilot.</description>
   </class>
 </library>
