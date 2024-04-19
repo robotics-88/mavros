@@ -57,6 +57,7 @@ add_message_files(
   RCOut.msg
   RTCM.msg
   RadioStatus.msg
+  RemoteID.msg
   RTKBaseline.msg
   State.msg
   StatusText.msg
