@@ -69,6 +69,8 @@ private:
 	{
 		mavlink::common::msg::OPEN_DRONE_ID_BASIC_ID basic_id{};
 
+		ROS_INFO("Receiving basic ID message");
+
 		basic_id.id_type = msg->id_type;
 		basic_id.ua_type = msg->ua_type;
 
