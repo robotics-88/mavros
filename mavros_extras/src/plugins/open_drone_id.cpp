@@ -45,8 +45,6 @@ public:
 		self_id_sub = open_drone_id_nh.subscribe("self_id", 10, &OpenDroneIDPlugin::self_id_cb, this);
 		system_sub = open_drone_id_nh.subscribe("system", 10, &OpenDroneIDPlugin::system_cb, this);
 		system_update_sub = open_drone_id_nh.subscribe("system_update", 10, &OpenDroneIDPlugin::system_update_cb, this);
-
-		test_timer = open_drone_id_nh.createTimer(ros::Duration(1.0), &OpenDroneIDPlugin::test_timer_cb, this);
 	}
 
 	Subscriptions get_subscriptions() override
@@ -63,13 +61,9 @@ private:
 	ros::Subscriber system_sub;
 	ros::Subscriber system_update_sub;
 
-	ros::Timer test_timer;
-
 	void basic_id_cb(const mavros_msgs::BasicID::ConstPtr &msg)
 	{
 		mavlink::common::msg::OPEN_DRONE_ID_BASIC_ID basic_id{};
-
-		ROS_INFO("Receiving basic ID message");
 
 		basic_id.id_type = msg->id_type;
 		basic_id.ua_type = msg->ua_type;
@@ -84,12 +78,21 @@ private:
 	{
 		mavlink::common::msg::OPEN_DRONE_ID_OPERATOR_ID operator_id{};
 
+		operator_id.operator_id_type = msg->operator_id_type;
+
+		size_t length = std::min(operator_id.operator_id.size(), msg->operator_id.size());
+		std::memcpy(operator_id.operator_id.data(), msg->operator_id.data(), length);
+
 		UAS_FCU(m_uas)->send_message_ignore_drop(operator_id);
 	}
 
 	void self_id_cb(const mavros_msgs::SelfID::ConstPtr &msg) 
 	{
 		mavlink::common::msg::OPEN_DRONE_ID_SELF_ID self_id{};
+		self_id.description_type = msg->description_type;
+
+		size_t length = std::min(self_id.description.size(), msg->description.size());
+		std::memcpy(self_id.description.data(), msg->description.data(), length);
 
 		UAS_FCU(m_uas)->send_message_ignore_drop(self_id);
 	}
@@ -97,6 +100,19 @@ private:
 	void system_cb(const mavros_msgs::System::ConstPtr &msg) 
 	{
 		mavlink::common::msg::OPEN_DRONE_ID_SYSTEM system{};
+
+		system.operator_location_type = msg->operator_location_type;
+		system.classification_type = msg->classification_type;
+		system.operator_latitude = msg->operator_latitude;
+		system.operator_longitude = msg->operator_longitude;
+		system.area_count = msg->area_count;
+		system.area_radius = msg->area_radius;
+		system.area_ceiling = msg->area_ceiling;
+		system.area_floor = msg->area_floor;
+		system.category_eu = msg->category_eu;
+		system.class_eu = msg->class_eu;
+		system.operator_altitude_geo = msg->operator_altitude_geo;
+		system.timestamp = msg->timestamp;
 
 		UAS_FCU(m_uas)->send_message_ignore_drop(system);
 	}
@@ -108,49 +124,6 @@ private:
 		UAS_FCU(m_uas)->send_message_ignore_drop(system_update);
 	}
 
-	void test_timer_cb(const ros::TimerEvent&) {
-		ROS_INFO("Open Drone ID plugin working");
-
-		{
-		mavlink::common::msg::OPEN_DRONE_ID_BASIC_ID basic_id{};
-
-		basic_id.ua_type = (uint8_t)mavlink::common::MAV_ODID_UA_TYPE::HELICOPTER_OR_MULTIROTOR;
-		basic_id.id_type = (uint8_t)mavlink::common::MAV_ODID_ID_TYPE::SERIAL_NUMBER;
-
-		std::array<uint8_t, 20UL> uas_id;
-
-		uas_id[0] = 54;
-		uas_id[1] = 57;
-		basic_id.uas_id = uas_id;
-
-		UAS_FCU(m_uas)->send_message_ignore_drop(basic_id);
-		}
-
-
-		{
-		mavlink::common::msg::OPEN_DRONE_ID_LOCATION location{};
-
-		UAS_FCU(m_uas)->send_message_ignore_drop(location);
-		}
-
-		{
-		mavlink::common::msg::OPEN_DRONE_ID_SYSTEM system{};
-
-		UAS_FCU(m_uas)->send_message_ignore_drop(system);
-		}
-
-		{
-		mavlink::common::msg::OPEN_DRONE_ID_OPERATOR_ID operator_id{};
-
-		UAS_FCU(m_uas)->send_message_ignore_drop(operator_id);
-		}
-
-		{
-		mavlink::common::msg::OPEN_DRONE_ID_SELF_ID self_id{};
-
-		UAS_FCU(m_uas)->send_message_ignore_drop(self_id);
-		}
-	}
 };
 }	// namespace extra_plugins
 }	// namespace mavros
