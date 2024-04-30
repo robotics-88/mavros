@@ -121,6 +121,11 @@ private:
 	{
 		mavlink::common::msg::OPEN_DRONE_ID_SYSTEM_UPDATE system_update{};
 
+		system_update.operator_latitude = msg->operator_latitude;
+		system_update.operator_longitude = msg->operator_longitude;
+		system_update.operator_altitude_geo = msg->operator_altitude_geo;
+		system_update.timestamp = msg->timestamp;
+
 		UAS_FCU(m_uas)->send_message_ignore_drop(system_update);
 	}
 
