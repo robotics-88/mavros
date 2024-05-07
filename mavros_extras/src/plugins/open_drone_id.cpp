@@ -1,13 +1,13 @@
 /**
- * @brief Automatic dependent surveillance-broadcast Vehicle plugin
+ * @brief Open Drone ID plugin to satisfy remote ID requirements
  * @file open_drone_id.cpp
- * @author Nuno Marques <n.marques21@hotmail.com>
+ * @author Gus Meyer <gus@robotics88.com>
  *
  * @addtogroup plugin
  * @{
  */
 /*
- * Copyright 2017 Nuno Marques.
+ * Copyright 2024 Gus Meyer.
  *
  * This file is part of the mavros package and subject to the license terms
  * in the top-level LICENSE file of the mavros repository.
