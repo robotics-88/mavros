@@ -76,6 +76,11 @@ odom
 
 Send odometry to FCU from another estimator.
 
+open\_drone\_id
+----
+
+Sends Open Drone ID messages to the FCU
+
 
 px4flow
 -------
